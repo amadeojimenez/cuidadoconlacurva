@@ -31,6 +31,18 @@ let notTheseKeys = [
 
 const sock = io();
 
+sock.on('choose_player', (text) => {
+  console.log("ASDASFFERERGRTGRTG", text)
+  const message = JSON.parse(text)
+  const w = document.querySelector(`.player_wrapper.${message.player}`);
+  if (message.left) {
+    setLeftButton(message.player, w, message.key, message.keyName);
+  }
+  if (message.right) {
+    setRightButton(message.player, w, message.key, message.keyName);
+  }
+})
+
 function playerClick(name) {
   console.log(players);
   players[name].active = !players[name].active; //switch active or not
@@ -66,8 +78,7 @@ function resetPlayer(w) {
 document.addEventListener("keydown", (e) => {
   for (const player in players) {
     if (players[player].keyR === true) {
-      console.log("ASDASDASDAsd", curPlayerWrapper)
-      setRightButton(player, curPlayerWrapper, e.code, e.key);
+      // setRightButton(player, curPlayerWrapper, e.code, e.key);
       sock.emit(
         "choose_player",
         JSON.stringify({
@@ -79,7 +90,7 @@ document.addEventListener("keydown", (e) => {
       );
     }
     if (players[player].keyL === true) {
-      setLeftButton(player, curPlayerWrapper, e.code, e.key);
+      // setLeftButton(player, curPlayerWrapper, e.code, e.key);
       sock.emit(
         "choose_player",
         JSON.stringify({
