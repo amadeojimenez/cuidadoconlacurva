@@ -30,7 +30,6 @@ let notTheseKeys = [
 ];
 
 const sock = io();
-// sock.emit("message", "wwwwww");
 
 function playerClick(name) {
   console.log(players);
@@ -67,13 +66,29 @@ function resetPlayer(w) {
 document.addEventListener("keydown", (e) => {
   for (const player in players) {
     if (players[player].keyR === true) {
-      sock.emit('choose_player', JSON.stringify({
-        
-      }))
+      console.log("ASDASDASDAsd", curPlayerWrapper)
       setRightButton(player, curPlayerWrapper, e.code, e.key);
+      sock.emit(
+        "choose_player",
+        JSON.stringify({
+          right: true,
+          player,
+          key: e.code,
+          keyName: e.key,
+        })
+      );
     }
     if (players[player].keyL === true) {
       setLeftButton(player, curPlayerWrapper, e.code, e.key);
+      sock.emit(
+        "choose_player",
+        JSON.stringify({
+          left: true,
+          player,
+          key: e.code,
+          keyName: e.key,
+        })
+      );
     }
   }
 });

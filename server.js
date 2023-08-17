@@ -10,7 +10,11 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 io.on("connection", (sock) => {
-  sock.on("message", (text) => console.log("ASDASDASDASDASDASD", text));
+  sock.on("message", (text) => console.log("message", text));
+  sock.on("choose_player", (text) => {
+    console.log("choose_player", JSON.parse(text));
+    io.emit('choose_player', text);
+  });
   //   const color = randomColor();
   //   const cooldown = createCooldown(2000);
 
